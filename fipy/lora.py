@@ -36,7 +36,7 @@ lora.join(activation=LoRa.OTAA, auth=(dev_eui, app_eui, app_key), timeout=0, dr=
 # wait until the module has joined the network
 while not lora.has_joined():
     pycom.rgbled(0xff0000)
-    time.sleep(2.5)
+    time.sleep(1.5)
     pycom.rgbled(0x000000)
     print('Not joined yet...')
 
