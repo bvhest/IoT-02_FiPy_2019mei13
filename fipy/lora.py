@@ -21,9 +21,9 @@ pycom.rgbled(0x000000)
 lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
 
 # create an OTA authentication params (obv TheThingsNetwork account obv hestbv-user)
-dev_eui = binascii.unhexlify('70B3D5499AB2EE1E')
-app_eui = binascii.unhexlify('70B3D57ED001C09E')
-app_key = binascii.unhexlify('8D4DFBB4DE149AC387D43EBBC51B1A28')
+dev_eui = binascii.unhexlify('---')
+app_eui = binascii.unhexlify('---')
+app_key = binascii.unhexlify('---')
 
 # set the 3 default channels to the same frequency (must be before sending the OTAA join request)
 lora.add_channel(0, frequency=868100000, dr_min=0, dr_max=5)

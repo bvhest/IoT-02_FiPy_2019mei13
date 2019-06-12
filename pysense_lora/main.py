@@ -43,9 +43,9 @@ print("Initialising LoRa.")
 lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
 
 # create an OTA authentication params (obv TheThingsNetwork account obv hestbv-user)
-dev_eui = binascii.unhexlify('70B3D5499AB2EE1E')
-app_eui = binascii.unhexlify('70B3D57ED001C09E')
-app_key = binascii.unhexlify('8D4DFBB4DE149AC387D43EBBC51B1A28')
+dev_eui = binascii.unhexlify('---')
+app_eui = binascii.unhexlify('---')
+app_key = binascii.unhexlify('---')
 
 # set the 3 default channels to the same frequency (must be before sending the OTAA join request)
 lora.add_channel(0, frequency=868100000, dr_min=0, dr_max=5)
@@ -89,7 +89,7 @@ pycom.rgbled(0x000000)
 print("LoRa socket created. Ready to go!")
 
 while True:
-    # get temperasture and Humidity# SI7006A20-sensor: temperature & humidity reading, next (derived) dewpoint and some unknown 'Humidity Ambient':
+    # get temperature and humidity # SI7006A20-sensor: temperature & humidity reading, next (derived) dewpoint and some unknown 'Humidity Ambient':
     print("New loop: reading Pysense sensors")
     pycom.rgbled(0x0000ff)
     temp = str(si.temperature())
@@ -104,13 +104,23 @@ while True:
     # definieer data-pakket
     payload = 'Pysense over VHLoRa: room temperature = ' + temp + ', humidity = ' + humi + ', 2nd temperature = ' + tmp2 + ', pressure = ' + pres + ', altitude = ' + alti
     print("payload: " + payload)
-    pkt = bytes(payload)
+#    print("convert payload to bytes")
+#    pkt = bytes(payload)
+#    print("payload converted to bytes")
 
     pycom.rgbled(0x00ff00)
-    print("sending:", pkt)
-    s.send(pkt)
+#    print("sending:", pkt)
+    print("sending")
+    try:
+        s.send(payload)
+    except Exception as esc:
+        print(esc)
+        print('failure sending data by LoRa')
+
+    print("send")
     time.sleep(4)
     pycom.rgbled(0x000000)
+    print("testing recvfrom")
     rx, port = s.recvfrom(256)
     if rx:
         print('Received: {}, on port: {}'.format(rx, port))
